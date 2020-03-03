@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
     "eslint-utils": ">=1.4.1",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -34,7 +35,8 @@
     "sinon": "^5.1.1"
   },
   "scripts": {
-    "test": "nyc mocha --recursive",
+    "test": "nyc mocha test/ --recursive",
+    "test-int": "nyc mocha test_integration/ --recursive --exit",
     "start": "NODE_ENV=local nodemon app.js"
   },
   "author": "",
