@@ -6,16 +6,25 @@ process.env.PORT = 3000;
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
 const app = require('../app');
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe('Example Test', () => {
-  it('Big Shaq should be right', () => {
-    chai.expect(2 + 2).to.equal(4);
-    chai.expect(4 - 1).to.equal(3);
-    // Quick maths!
+describe('MongoDB', () => {
+  it('should be connected', function (done) {
+    this.timeout(10000); // sometimes it takes a while to start up
+    // https://mongoosejs.com/docs/api.html#connection_Connection-readyState
+    if (mongoose.connection.readyState === 1) { // connected
+      done();
+    } else if (mongoose.connection.readyState === 0) { // disconnected
+      done('Could not connect to MongoDB database');
+    } else {
+      // https://mongoosejs.com/docs/api/connection.html#connection_Connection-watch
+      mongoose.connection.on('connected', () => done());
+      mongoose.connection.on('disconnected', () => done('Could not connect to MongoDB database'));
+    }
   });
 });
 
